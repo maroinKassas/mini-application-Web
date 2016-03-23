@@ -1,0 +1,104 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+	</head>
+	
+	<body>
+		<header>
+		</header>
+
+		<nav>	
+		</nav>
+		
+		<section>
+			<h2>Trouvez la traduction en anglais du verbe : <div id="verbe"> </div> </h2>
+			
+			<input class="input" id = "reponse" />
+			
+			<h3>Le verbe à trouver commence par : <div id="indice"> </div> </h3>
+			<button id="btn"> Valider </button>
+		</section>
+		
+		<footer>
+		</footer>			
+
+	</body>
+</html>
+
+<script type="text/javascript">
+	var points = 10;
+
+	window.onload=function(){
+		var verbes = files();
+		var verbeFr = verbes[0];
+		var verbeTrad = verbes[1];
+		var i;
+		var indice = verbeTrad.substring(0,1);
+		
+		for(i = 1; i < verbeTrad.length-1; i++){
+			indice += "*";
+		}
+		
+		document.getElementById("verbe").innerHTML = verbeFr;
+		document.getElementById("indice").innerHTML = indice;
+
+		var bouton = document.getElementById('btn');
+		bouton.onclick = function(e){
+			if(points > 0 && points < 20){
+				if(verbeTrad.match(new RegExp([document.getElementById("reponse").value],"g"))){
+					verbes = files();
+					verbeFr = verbes[0];
+					verbeTrad = verbes[1];
+					
+					points++;
+				
+					alert("Bravo ! \n vous avez maintenant "+points+" points !\n\n Verbe suivant ");
+					
+					var i;
+					var indice = verbeTrad.substring(0,1);
+					
+					for(i = 1; i < verbeTrad.length-1; i++){
+						indice += "*";
+					}
+					document.getElementById("indice").innerHTML = indice;
+					document.getElementById("verbe").innerHTML = verbeFr;
+				}else{
+					points--;
+					alert("Faux ! \n Il vous reste : "+points+" points! ");
+				}	
+			}else{
+				if(points == 0){
+					alert("Vous avez perdu !");
+				}else{
+					alert("Vous êtes arrivé à 20 points ! \n La partie est finie \n appuyez sur F5 pour recommencer");
+				}
+			}
+		}
+	}
+
+	function readTextFile(file){
+		var rawFile = new XMLHttpRequest();
+		var allText = "";
+		rawFile.open("GET", file, false);
+		rawFile.onreadystatechange = function (){
+			if(rawFile.readyState === 4){
+				if(rawFile.status === 200 || rawFile.status == 0){
+					allText = rawFile.responseText;
+				}
+			}
+		}
+		rawFile.send(null);
+		return allText;
+	}
+	
+	function files(){
+		var chaineVerbe = readTextFile("verbe.txt");
+		var chaineVerbeTrad = readTextFile("verbeTrad.txt");
+		
+		var tableauVerbe = chaineVerbe.split("\n");
+		var tableauVerbeTrad = chaineVerbeTrad.split("\n");
+		
+		var random = Math.round(Math.random() * (tableauVerbe.length)+1);
+		return [tableauVerbe[random],tableauVerbeTrad[random]];
+	}
+</script>
