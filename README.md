@@ -3,7 +3,7 @@ jeu de traduction
 
 Comment l'installer : Il vous suffira de décompresser le dossier jeutrad.rar.
 
-Comment la lancer : il suffira de l'ouvrir avec le navigateur mozilla firefox.
+Comment la lancer : il suffira d'ouvrir jeu.html avec le navigateur mozilla firefox.
 
 Fonctionnement technique :
 L'utilisateur devra remplir un champ et appuyer sur valider pour vérifier sa reponse.
